@@ -1,9 +1,7 @@
 ---
 name: Dodge
 description: Bullet-dodging game using p5.js
-author: Hack Club staff
-group: start
-order: 4
+author: Hack Club staff (Edited for CodeDay Virginia by Bradley Harker)
 ---
 
 # Dodge
@@ -29,6 +27,28 @@ Previously when we've done web development, we've used HTML elements and things 
 [p5.js](http://p5js.org/) is a library for making stuff in conjunction with the HTML canvas element. It is nothing more than JS code written to make commonly-desired functionality much more accessible. It is a JS port of Processing, a software for making pictures and visuals with code.
 [p5.play](http://p5play.molleindustria.org/) is another library, which itself uses p5.js, and adds easy-to-use functionality specifically tailored towards building games.
 
+## If you've never coded before
+So, some things to know before you begin this lesson if you aran't already familiar with programming.
+
+### Variables
+A variable is just a way to store information. A variable is something you've probably seen before in math, but in Javascript, it can store more than just numbers! It can store things like strings (`var string = "This is a string using double quotes";`), objects (`var object = new SomeObject();`), and much more!
+
+### Camel Case
+A common thing to see in Javascript programs is the use of camel case. This is becuase variables can't have spaces in them so when you want to use multiple words in a variable name, you lowercase the first word in uppercase the other words, like this `genericVariableName`.
+
+### Functions
+A function is a se tof instructions that can be called from other locations in the code. When a function is defined you see the keyword `function` followed by `inserFunctionName()` the paranthesis are used to contain **arguments/parameters**. Arguments or parameters are ways data can be passed into a function, for example:
+
+```js
+function drawRectangle(size) {
+    // Some code to draw rectangle with width and height of size
+}
+
+drawRectangle(5);
+```
+
+The function `drawRectangle` is defined to take the argument `size`. Size is then used by the set of instructions within in order to draw a rectongle of size `size`. It is then called to draw rectangle of size 5.
+
 ## Table of contents:
 
 - [Part I: Setup](#part-i-setup)
@@ -39,47 +59,34 @@ Previously when we've done web development, we've used HTML elements and things 
 
 ## Part I. Setup
 
-Just as we've done previously, we're going to be building this project in Cloud9.
+Just as we've done previously, we're going to be building this project on Repl.it.
 
-Our project's code is going to be divided into two files: `index.html` (the HTML code) and `game.js` (the JavaScript code). The HTML file will tell the browser about the game's existence and how to display it on the page. The JavaScript file will tell the browser how to actually run the game.
+To get starte, go to [Repl.it](https://repl.it/) and sign up for an account. Then come back here and click this [link](https://repl.it/@bradhacker/p5-boilerplate) to get to the base for your workspace. Locate the `fork` button and click it.
 
-1. Create a new directory in your Cloud9 workspace by right-clicking your `projects` folder and selecting `New Folder`. Name this folder `dodge`.
-2. Create a file by right-clicking the `dodge` folder, selecting `New File`, and naming it `index.html`. Double-click to open it, and type the following into it:
+Our project's code is going to be divided into two files: `index.html` (the HTML code) and `index.js` (the JavaScript code).  The HTML file will tell the browser about the game's existence and how to display it on the page. The JavaScript file will tell the browser how to actually run the game.
 
-    ```html
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Dodge</title>
-    </head>
-    <body>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.12/p5.js"></script>
-      <script src="https://cdn.rawgit.com/molleindustria/p5.play/1bf3c72fe6b647617373b9b3ea3e419baaef8cfd/lib/p5.play.js"></script>
-    </body>
-    </html>
-    ```
+(You can ignore the `index.css` file, this is just needed for it to look nice)
 
-     The two `script` tags inside of `body` tell the browser to load p5.js and p5.play, which we'll need to run our game.
- 
-3. Create another file by right-clicking the `dodge` folder, selecting `New File`, and naming it `game.js`.
- 
-Great, so now we have `index.html` and `game.js`. `index.html` is loading p5.js and p5.play, but it doesn't know about `game.js` yet. Let's change that by adding `<script src="game.js"></script>` to the **body** in `index.html`, beneath the other `script` tags. `index.html` should now look like this:
+The `index.html` file should look like this:
 
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Dodge</title>
-</head>
-<body>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.12/p5.js"></script>
-  <script src="https://cdn.rawgit.com/molleindustria/p5.play/1bf3c72fe6b647617373b9b3ea3e419baaef8cfd/lib/p5.play.js"></script>
-  <script src="game.js"></script>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>CodeDay Virginia - Dodge</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.12/p5.js"></script>
+     <script src="https://cdn.rawgit.com/molleindustria/p5.play/1bf3c72fe6b647617373b9b3ea3e419baaef8cfd/lib/p5.play.js"></script>
+    <script src="index.js"></script>
+  </body>
 </html>
 ```
 
-Now, save using the shortcut <kbd>Command</kbd>+<kbd>s</kbd> or <kbd>Ctrl</kbd>+<kbd>s</kbd> and open up live preview by clicking `Preview > Live Preview`. Right now it's just a blank page, but we'll be changing that soon enough :wink:.
+The top two `script` tags inside of `body` tell the browser to load p5.js and p5.play, which we'll need to run our game.
 
 ## Part II. The External JS File
 
@@ -87,7 +94,7 @@ Now, save using the shortcut <kbd>Command</kbd>+<kbd>s</kbd> or <kbd>Ctrl</kbd>+
 
 p5.js works by automatically calling two special functions: `setup()` and `draw()` to create the visuals on your webpage. We'll be writing our own code in these functions, so that p5.js can then run our code.
 
-Double-click `game.js` to open, and add these functions (type them out, don't copy and paste!).
+Double-click `index.js` to open, and these functions should be there:
 
 ```js
 function setup() {
@@ -97,7 +104,7 @@ function draw() {
 }
 ```
 
-If you save and refresh the preview in Cloud9, you'll notice nothing has changed.
+If you hit the **run** button (located above your code), you'll notice nothing has changed.
 
 How these functions work is that `setup()` is run only once, upon page load. `draw()` on the other hand, is run repeatedly after `setup()` finishes, and in this way, provides the basis for any animation or interaction you see in your project.
 
@@ -121,13 +128,13 @@ function draw() {
 
 `background()` is a function that sets the appearance of the background. Here we're using three arguments to define the red, green, and blue (RGB) values of a color, which will be the background color of our canvas. You can use `background` in some more ways, though, which are detailed in documentation [here](https://p5js.org/reference/#/p5/background).
 
-If you save and refresh live preview, you'll see that I've chosen this dark blue. You can experiment with the RGB values and choose your own background color.
+After you edit the code, hit run again, you'll see that I've chosen this dark blue. You can experiment with the RGB values and choose your own background color.
 
 Now that we've finished setting up, it's time to add the most important thing to our game: the player.
 
 ### Adding the Player
 
-So where should we create the player? Well, we definitely want to have it when we load the game, so it might make sense to put player creation in `setup()`. Let's first declare the existence of the player at the top of the file with:
+So where should we create the player? Well, we definitely want to have it when we load the game, so it might make sense to put player creation in `setup()`. Let's first declare the existence of the player at the **top of the file** with:
 
 ```js
 var player;
@@ -146,9 +153,9 @@ function setup() {
 
 [`createSprite()`](http://p5play.molleindustria.org/docs/classes/p5.play.html#method-createSprite) makes a placeholder for an image (meaning you can customize with your own!), and takes four arguments (horizontal and vertical coordinates, and width and height of sprite, respectively).
 
-We've placed our player in the horizontal center of the canvas (width/2), and at the bottom (height). `width` and `height` are variables that were automatically set for us by p5.js when we created the canvas, and they refer to the width and the height of the canvas, of course!
+We've placed our player in the horizontal center of the canvas (`width/2`), and at the bottom (`height`). `width` and `height` are variables that were automatically set for us by p5.js when we created the canvas, and they refer to the width and the height of the canvas, of course!
 
-Here it might make sense to mention that the coordinate system of p5.js is not like the traditional one you may have seen in your maths classes. p5.js has its origin (0, 0) at the upper left corner of the canvas, with the x and y values increasing rightward and downward.
+Here it might make sense to mention that the coordinate system of p5.js is not like the traditional one you may have seen in your maths classes. p5.js has its origin (0, 0) at the **upper left corner of the canvas**, with the x and y values **increasing rightward and downward**.
 
 Okay, so it looks like we've added our player---wait. No, it doesn't. Turns out that while we've created a player, we haven't shown it on our canvas anywhere.
 
@@ -161,7 +168,7 @@ function draw() {
 }
 ```
 
-Save and refresh live preview to see your player!
+Restart your code to see your player!
 
 It looks like it's cut off, though. Guess we have to adjust the y-position. Let's modify that in our initial creation of the player, in `setup()`.
 
@@ -589,7 +596,7 @@ Now let's load an image into `playerImage` in `preload()`.
 
 ```js
 function preload() {
-  playerImage = loadImage("https://surrogate.hackedu.us/i.imgur.com/N5uCbDu.png");
+  playerImage = loadImage("img/prophet_orpheus.png");
 }
 ```
 
@@ -597,8 +604,8 @@ function preload() {
 
 ```js
 function preload(){
-  playerImage = loadImage("https://surrogate.hackedu.us/i.imgur.com/N5uCbDu.png");
-  enemyImage = loadImage("https://surrogate.hackedu.us/i.imgur.com/OdL0XPt.png");
+  playerImage = loadImage("img/prophet_orpheus.png");
+  enemyImage = loadImage("img/asteroid.png");
 }
 ```
 
@@ -668,8 +675,8 @@ var enemyImage;
 var backgroundImage;
 
 function preload() {
-  enemyImage = loadImage("https://surrogate.hackedu.us/i.imgur.com/OdL0XPt.png");
-  backgroundImage = loadImage("https://surrogate.hackedu.us/i.imgur.com/aKQOg3G.png");
+  enemyImage = loadImage("img/asteroid.png");
+  backgroundImage = loadImage("img/background.png");
   // ...the rest of the preload function
 }
 ```
@@ -712,20 +719,7 @@ Feel free to customize the enemy's rotation speed to make it faster/slower!
 
 ## Part III. Publishing and Sharing
 
-You're done, yay! You just need to add it to your website so that it's live on the internet!
-
-Just like we did in the Personal Website workshop, do the following steps to upload your Dodge game to your website.
-
-1. Open the terminal by pressing <kbd>Alt + t</kbd> on the keyboard at the same time. Type in the following commands:
-  - `git add --all`
-  - `git commit -m "Create Dodge game"`
-  - `git push`
-2. GitHub will now ask for your username and password.
-  - Go ahead and enter the username and press the enter.
-  - Enter the password and press enter. _The characters won't show up on the screen, but rest assured, they are still being typed._
-3. Now try to view the website by going to `USERNAME.github.io/dodge/` (make sure to replace `USERNAME` with your actual GitHub username)
-
-Don't forget to share a link to your beautiful creation on the Slack on the [`#shipit`](https://hackclub.slack.com/messages/shipit) channel!
+You're done, yay! If you'd like to upload your code to GitHub then be sure to visit the **GitHub workshop @ 5pm** by Cole!
 
 ## Part IV. Hacking
 
